@@ -144,10 +144,14 @@ function checkValidityPassword() {
     passwordError.textContent = "Please write in your password."
     password.classList.add("errorInput");
     passwordError.classList.add("errorMessage");
+    confirmPassword.setAttribute("disabled", "true");
+    confirmPassword.value = "";
   } else if (password.value.length < 8) { 
     passwordError.textContent = "The password is to short, min 8 char."
     password.classList.add("errorInput");
     passwordError.classList.add("errorMessage");
+    confirmPassword.setAttribute("disabled", "true");
+    confirmPassword.value = "";
   } else {
     passwordError.textContent = ""
     password.classList.remove("errorInput");
@@ -163,10 +167,14 @@ function checkValidityPasswordWhenLoseFocus() {
     passwordError.textContent = ""
     password.classList.remove("errorInput");
     passwordError.classList.remove("errorMessage");
+    confirmPassword.setAttribute("disabled", "true");
+    confirmPassword.value = "";
   } else if (password.value.length < 8) { 
     passwordError.textContent = "The password is to short, min 8 char."
     password.classList.add("errorInput");
     passwordError.classList.add("errorMessage");
+    confirmPassword.setAttribute("disabled", "true");
+    confirmPassword.value = "";
   } else {
     passwordError.textContent = ""
     password.classList.remove("errorInput");
@@ -218,9 +226,9 @@ function checkValidityConfirmPasswordWhenLoseFocus() {
     confirmPassword.classList.remove("errorInput");
     passwordError.classList.remove("errorMessage");
   } else if (confirmPassword.validity.valueMissing) {
-    confirmPasswordError.textContent = "Please confirm your password."
-    confirmPassword.classList.add("errorInput");
-    confirmPasswordError.classList.add("errorMessage");
+    confirmPasswordError.textContent = "";
+    confirmPassword.classList.remove("errorInput");
+    confirmPasswordError.classList.remove("errorMessage");
   } else if (confirmPassword.value !== password.value) {
     confirmPasswordError.textContent = "The passwords does not match."
     confirmPassword.classList.add("errorInput");
@@ -237,3 +245,31 @@ function checkValidityConfirmPasswordWhenLoseFocus() {
 confirmPassword.addEventListener("click", checkValidityConfirmPassword);
 confirmPassword.addEventListener("keyup", checkValidityConfirmPassword);
 confirmPassword.addEventListener("focusout", checkValidityConfirmPasswordWhenLoseFocus);
+
+// subit the form;
+
+const submitButton = document.querySelector(".submitButton");
+
+function submitTheForm() {
+  checkValidityEmail();
+  checkValidityCountry();
+  checkValidityPostalCode();
+  checkValidityPassword();
+  checkValidityConfirmPassword();
+};
+
+submitButton.addEventListener("click", (eve) => {
+  submitTheForm();
+  const getAllErrorMsj = document.querySelectorAll(".errorMsj");
+  for (const elem of getAllErrorMsj) {
+    if (elem.textContent) {
+      console.log("Form incorectly compleated.");
+      eve.preventDefault();
+    } else if (confirmPassword.hasAttribute("disabled")) {
+      console.log("Form incorectly compleated.");
+      eve.preventDefault();
+    } else {
+      console.log("Form correctly compleated.")
+    }
+  }
+});
