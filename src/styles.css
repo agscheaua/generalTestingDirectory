@@ -1,0 +1,41 @@
+*,
+*::after,
+*::before {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.gifAllContainer {
+  border: 1px solid black;
+  width: 90%;
+  margin: 10px 10px;
+  font-size: 1.4rem;
+  width: 600px;
+}
+
+.gifSearchControl {
+  padding: 10px;
+  border-bottom: 1px solid black;
+}
+
+input {
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 1px;
+}
+
+button {
+  font-size: 1.1rem;
+  padding: 1.5px;
+  border-radius: 5px;
+  border: 1px solid black;
+  vertical-align: 1px;
+}
+
+.gifImageContainer {
+  margin: 10px 0px;
+  padding: 10px;
+}
+
