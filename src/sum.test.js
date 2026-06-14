@@ -11,70 +11,66 @@ const createBothAlphabet = (function() {
 function shiftArray(num) {
   const varShiftedAplhabet = createBothAlphabet.shiftedAplhabet;
   for (let i = 0; i < num; i++) {
-    const firstElementArray = varShiftedAplhabet[0];
-    varShiftedAplhabet.push(firstElementArray);
+    varShiftedAplhabet.push(varShiftedAplhabet[0]);
     varShiftedAplhabet.shift();
   };
-  console.log(varShiftedAplhabet);
 };
 
+// test our main function that cipher the text;
 test("Caesar Cipher", () => {
-  function ciperText(text, shift) {
-  shiftArray(shift);
-  const varNormalAlphabet = createBothAlphabet.normalAlphabet;
-  const varShiftedAplhabet = createBothAlphabet.shiftedAplhabet;
+  function cipherText(text, shift) {
+    shiftArray(shift);
 
-  const parseCipherPhrase = (String(text)).split("");
-  const wordsFormatCapitalizedOrNot = [];
-  for (let i = 0; i <= parseCipherPhrase.length -1; i++) {
-    if (varNormalAlphabet.includes(parseCipherPhrase[i].toLowerCase())){
-      if (parseCipherPhrase[i] === parseCipherPhrase[i].toUpperCase()) {
-        wordsFormatCapitalizedOrNot.push("capitalized");
+    const varNormalAlphabet = createBothAlphabet.normalAlphabet;
+    const varShiftedAplhabet = createBothAlphabet.shiftedAplhabet;
+
+    const parseCipherPhrase = (String(text)).split("");
+
+    const wordsFormatCapitalizedOrNot = [];
+    for (let i = 0; i <= parseCipherPhrase.length -1; i++) {
+      if (varNormalAlphabet.includes(parseCipherPhrase[i].toLowerCase())){
+        if (parseCipherPhrase[i] === parseCipherPhrase[i].toUpperCase()) {
+          wordsFormatCapitalizedOrNot.push("capitalized");
+        } else {
+          wordsFormatCapitalizedOrNot.push("small");
+        };
       } else {
-        wordsFormatCapitalizedOrNot.push("small");
+        wordsFormatCapitalizedOrNot.push("conex");
       };
-    } else {
-      wordsFormatCapitalizedOrNot.push("conex");
+    }; 
+
+    const containerForCiperIndex = [];
+    for (let i = 0; i <= parseCipherPhrase.length - 1; i++) {
+      const ciperTextLetter = varNormalAlphabet.indexOf(parseCipherPhrase[i].toLowerCase());
+      if (ciperTextLetter === -1) {
+        containerForCiperIndex.push(parseCipherPhrase[i])
+      } else {
+        containerForCiperIndex.push(ciperTextLetter);
+      };
     };
-  } 
 
-  const containerForCiperIndex = [];
-  for (let i = 0; i <= parseCipherPhrase.length - 1; i++) {
-    const ciperTextLetter = varNormalAlphabet.indexOf(parseCipherPhrase[i].toLowerCase());
-    if (ciperTextLetter === -1) {
-      containerForCiperIndex.push(parseCipherPhrase[i])
-    } else {
-      containerForCiperIndex.push(ciperTextLetter);
+    const ciperWordParsed = [];
+    for (let i = 0; i <= containerForCiperIndex.length - 1; i++) {
+      const ciperLetter = varShiftedAplhabet[containerForCiperIndex[i]];
+      if (varShiftedAplhabet.includes(ciperLetter) && typeof containerForCiperIndex[i] === "number") {
+        ciperWordParsed.push(ciperLetter);
+      } else {
+        ciperWordParsed.push(containerForCiperIndex[i]);
+      };
     };
-  };
 
-  const ciperWordParsed = [];
-  for (let i = 0; i <= containerForCiperIndex.length - 1; i++) {
-    const ciperLetter = varShiftedAplhabet[containerForCiperIndex[i]];
-    if (varShiftedAplhabet.includes(ciperLetter) && typeof containerForCiperIndex[i] === "number") {
-      ciperWordParsed.push(ciperLetter);
-    } else {
-      ciperWordParsed.push(containerForCiperIndex[i]);
+    for (let i = 0; i <= ciperWordParsed.length-1; i++) {
+      if (wordsFormatCapitalizedOrNot[i] === "capitalized") {
+        ciperWordParsed[i] = ciperWordParsed[i].toUpperCase();
+      } else if (wordsFormatCapitalizedOrNot[i] === "small") {
+        ciperWordParsed[i] = ciperWordParsed[i].toLowerCase();
+      };
     };
-  };
 
-  for (let i = 0; i <= ciperWordParsed.length-1; i++) {
-    if (wordsFormatCapitalizedOrNot[i] === "capitalized") {
-      ciperWordParsed[i] = ciperWordParsed[i].toUpperCase();
-    } else if (wordsFormatCapitalizedOrNot[i] === "small") {
-      ciperWordParsed[i] = ciperWordParsed[i].toLowerCase();
-    } else {
-      console.log(i);
-    }
-  };
+    const cipherSentence = ciperWordParsed.join("");
+    console.log(cipherSentence);
 
-  const ciperSentence = ciperWordParsed.join("");
-
-  console.log(containerForCiperIndex);
-  console.log(ciperWordParsed);
-  console.log(ciperSentence);
-
-  return console.log(wordsFormatCapitalizedOrNot);
+    return cipherSentence;
 };  
-  expect(ciperText("HEllo world 1 ! 1212", 3)).toBe(1);
+  expect(cipherText("Hello, World!", 3)).toBe("Khoor, Zruog!");
 });
